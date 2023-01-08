@@ -14,6 +14,7 @@ const model = {
     users: [],
     maleUsers:[],
     femaleUsers:[],
+    favorite:[],
     num:0,
 }
 
@@ -30,12 +31,22 @@ const view = {
                 <p class="email fs-5"><i class="fa-solid fa-envelope me-4"></i>${users[model.num].email}</p>
             </div>
             <div class="card-footer d-flex doYouLike p-0 mt-2">
-                <div class="w-100 text-center like p-2"><i class="fa-solid fa-o fs-4 ms-5 like"></i></div>
-                <div class="w-100 text-center dLike p-2"><i class="fa-solid fa-x fs-4 me-5 dLike"></i></div>
+                <div class="w-100 text-center like p-2" data-id="${users[model.num].id}">
+                    <i class="fa-solid fa-o fs-4 ms-5 like" data-id="${users[model.num].id}"></i>
+                </div>
+                <div class="w-100 text-center dLike p-2">
+                    <i class="fa-solid fa-x fs-4 me-5 dLike"></i>
+                </div>
             </div>
         </div>
         `
         return rawHTML
+    },
+    
+    findFavorite(id){
+        const favoriteUser =  model.users.find((user)=>user.id == id)
+        model.favorite.push(favoriteUser)
+        console.log(model.favorite)
     }
 }
 
@@ -47,9 +58,24 @@ const controller = {
     }
 }
 
+const utility = {
+    getRandomUsers(list){
+        for(let i=list.length-1 ; i>0 ; i--){
+            let randomIndex = Math.floor(Math.random()*(i+1));
+            [list[i],list[randomIndex]]= [list[randomIndex],list[i]]
+        }
+        return list
+    }
+}
+
 
 dataPanel.addEventListener('click',e=>{
-    if(e.target.classList.contains('like') || e.target.classList.contains('dLike')){
+    if(e.target.classList.contains('like')){
+        view.findFavorite(e.target.dataset.id)
+        model.num += 1
+        controller.renderUser(model.users)
+    }
+    if(e.target.classList.contains('dLike')){
         model.num += 1
         controller.renderUser(model.users)
     }
@@ -64,5 +90,6 @@ axios.get(INDEX_URL).then(response=>{
     for(const users of info){
         model.users.push(users)
     }
+    utility.getRandomUsers(model.users)
     controller.renderUser(model.users)
 })
