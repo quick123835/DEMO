@@ -73,6 +73,7 @@ dataPanel.addEventListener('click',e=>{
     if(e.target.classList.contains('like')){
         view.findFavorite(e.target.dataset.id)
         model.num += 1
+        localStorage.setItem('favoriteUsers',JSON.stringify(model.favorite))
         controller.renderUser(model.users)
     }
     if(e.target.classList.contains('dLike')){
@@ -80,7 +81,6 @@ dataPanel.addEventListener('click',e=>{
         controller.renderUser(model.users)
     }
 })
-
 
 
 
