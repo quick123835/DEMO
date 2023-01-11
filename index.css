@@ -6,3 +6,47 @@
 .doYouLike :hover{
     background-color: rgb(171, 161, 161);
 }
+
+.firstMode{
+    opacity: 0.4;
+}
+
+
+
+/* 一開始選擇畫面 */
+.type{
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+.type i{
+    font-size: 150px;;
+    margin: 30px;
+}
+
+.type p{
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+.firstTitle{
+    font-size:24px;
+    font-weight: bold;
+}
+
+.chooseType{
+    position: absolute;
+    background-color: rgba(63, 235, 235, 0.815);
+    z-index: 999;
+    top: 33vh;
+    padding: 50px 0;
+    width:100%;
+    margin:auto;
+}
+
+
+.type:hover{
+    opacity: 1;
+    cursor: pointer;
+}

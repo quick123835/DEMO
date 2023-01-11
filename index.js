@@ -4,7 +4,7 @@ const INDEX_URL = BASE_URL+'/api/v1/users'
 const dataPanel = document.querySelector('.data-panel')
 
 
-const maleState = {
+const State = {
     ALL:'ALL',
     MALE:'MALE',
     FEMALE:'FEMALE',
@@ -46,16 +46,17 @@ const view = {
     findFavorite(id){
         const favoriteUser =  model.users.find((user)=>user.id == id)
         model.favorite.push(favoriteUser)
-        console.log(model.favorite)
     }
 }
 
 
 const controller = {
-    currentState: maleState.ALL,
+    currentState: State.ALL,
+
     renderUser(data){
         dataPanel.innerHTML = view.getFirstUser(data)
-    }
+    },
+    
 }
 
 const utility = {
@@ -74,11 +75,60 @@ dataPanel.addEventListener('click',e=>{
         view.findFavorite(e.target.dataset.id)
         model.num += 1
         localStorage.setItem('favoriteUsers',JSON.stringify(model.favorite))
-        controller.renderUser(model.users)
+        switch(controller.currentState){
+            case 'ALL':
+                controller.renderUser(model.users)
+                break
+            case 'MALE':
+                controller.renderUser(model.maleUsers)
+                break
+            case 'FEMALE':
+                controller.renderUser(model.femaleUsers)
+                break
+        }
+
     }
     if(e.target.classList.contains('dLike')){
         model.num += 1
+        switch(controller.currentState){
+            case 'ALL':
+                controller.renderUser(model.users)
+                break
+            case 'MALE':
+                controller.renderUser(model.maleUsers)
+                break
+            case 'FEMALE':
+                controller.renderUser(model.femaleUsers)
+                break
+        }
+    }
+})
+
+// 一開始選擇畫面
+const chooseType =  document.querySelector('.chooseType')
+chooseType.addEventListener('click', e =>{
+    if(e.target.parentElement.classList.contains('all')){
+        controller.currentState = State.ALL
+        chooseType.style="display:none"
+        document.querySelector('.container').classList.remove('firstMode')
+        utility.getRandomUsers(model.users)
         controller.renderUser(model.users)
+    }
+    if(e.target.parentElement.classList.contains('male')){
+        controller.currentState = State.MALE
+        chooseType.style="display:none"
+        model.maleUsers = model.users.filter((user) => user.gender == 'male')
+        document.querySelector('.container').classList.remove('firstMode')
+        utility.getRandomUsers(model.maleUsers)
+        controller.renderUser(model.maleUsers)
+    }
+    if(e.target.parentElement.classList.contains('female')){
+        controller.currentState = State.FEMALE
+        chooseType.style="display:none"
+        model.femaleUsers = model.users.filter((user) => user.gender == 'female')
+        document.querySelector('.container').classList.remove('firstMode')
+        utility.getRandomUsers(model.femaleUsers)
+        controller.renderUser(model.femaleUsers)
     }
 })
 

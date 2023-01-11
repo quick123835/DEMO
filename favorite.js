@@ -56,7 +56,7 @@ const controller = {
         const modalBir = document.querySelector('.modal-birthday')
 
         modalTitle.innerText = `${model.favorite[index].name} ${model.favorite[index].surname}`
-        modalImg.innerHTML = `<img src="${model.favorite[index].avatar}" class="img-fluid modal-img" alt="">`
+        modalImg.innerHTML = `<img src="${model.favorite[index].avatar}" class="img-fluid modal-img" alt="" justify-content-center>`
         modalAge.innerText = `Age: ${model.favorite[index].age}`
         modalRegion.innerText = `Region: ${model.favorite[index].region}`
         modalBir.innerText = `Birthday: ${model.favorite[index].birthday}`
